@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     [Header("Round Statistics")]
     [SerializeField] private float[] LevelIncrements = new float[2];
     private bool OnRound;
-    private int EnemiesKilled;
-    private float TimeElapsed;
+    public int EnemiesKilled { get; private set; }
+    public float TimeElapsed { get; private set; }
 
     public IObservable<Actor> ObserveActorDamaged()
     {

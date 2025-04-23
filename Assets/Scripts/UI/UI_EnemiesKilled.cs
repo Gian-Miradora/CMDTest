@@ -6,13 +6,10 @@ public class UI_EnemiesKilled : MonoBehaviour
     private TextMeshProUGUI text;
 
     private void Awake() => text = GetComponent<TextMeshProUGUI>();
-    private void Start()
-    {
-        GameManager.current.EnemiesKilledEvent += OnEnemiesKilled;
-    }
 
-    private void OnEnemiesKilled(int kill)
+    private void OnEnable()
     {
-        text.text = "Killed: " + kill;
+        if (!GameManager.current) return;
+        text.text = "Killed: " + GameManager.current.EnemiesKilled;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using UniRx;
 using UniRx.Triggers;
@@ -85,6 +86,7 @@ public abstract class EnemyBase : MonoBehaviour
     }
 
     public abstract void Attack();
+
     public virtual void Hit()
     {
         SetState(ActorState.Hit);
@@ -96,20 +98,25 @@ public abstract class EnemyBase : MonoBehaviour
         actor.MoveActor(Vector2.zero);
         circleCollider.enabled = false;
         Debug.Log($"{gameObject.name} died!");
-        DeathCooldown();
+        StartCoroutine(DeathCooldown());
     }
 
-    public async void DeathCooldown()
+    private IEnumerator DeathCooldown()
     {
-        await Task.Delay(10000);
-
-        try
-        {
-            gameObject.SetActive(false);
-        }
-        catch
-        {
-            Debug.LogWarning("Playmode was ended before this async function was finished. Moving on...");
-        }
+        yield return new WaitForSeconds(5);
+        gameObject.SetActive(false);
     }
+
+    //public async void DeathCooldown()
+    //{
+    //    await Task.Delay(10000);
+    //    try
+    //    {
+    //        gameObject.SetActive(false);
+    //    }
+    //    catch
+    //    {
+    //        Debug.LogWarning("Playmode was ended before this async function was finished. Moving on...");
+    //    }
+    //}
 }
